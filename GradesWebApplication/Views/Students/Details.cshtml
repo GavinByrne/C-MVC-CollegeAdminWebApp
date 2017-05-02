@@ -1,0 +1,109 @@
+﻿@model GradesWebApplication.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Student</h2>
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.DateEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEntered)
+        </dd>*@
+
+    </dl>
+
+    <table class="table">
+        <tr>
+            <th>
+                Subject ID
+            </th>
+            <th>
+                Subject
+            </th>
+            <th>
+                Grade
+            </th>
+            <th>
+                @Html.ActionLink("Add Subject", "Create", "Grades", new { studentid = Model.StudentID }, null)
+                @*@Ajax.ActionLink("Add Subject", "Create", "Grades", new { studentid = Model.StudentID }, new AjaxOptions()
+           {
+               HttpMethod = "Get",
+               UpdateTargetId = "divDetails",
+               InsertionMode = InsertionMode.Replace
+           })*@
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Grades)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade1)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Grades", new { id = item.ID }, null) 
+                    @*@Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentID }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<div id="divDetails"> </div>
+

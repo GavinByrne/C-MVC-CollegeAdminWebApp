@@ -1,0 +1,114 @@
+﻿@*@model IEnumerable<GradesWebApplication.Models.Lecturer>*@
+
+@model PagedList.IPagedList<GradesWebApplication.Models.Lecturer>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Lecturers";
+}
+
+<h2>Lecturers</h2>
+
+<p>
+    @Html.ActionLink("Create New Lecturer", "Create")
+</p>
+
+@*@using (Html.BeginForm("Index", "Lecturers", FormMethod.Get))
+{
+    <p>
+        Find by ID: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}*@
+
+@using (Html.BeginForm("Index", "Lecturers", FormMethod.Get))
+{
+    //the following are search options
+    <b> Search Option: </b>@Html.RadioButton("option", "LecturerID", true) <text> Lecturer ID </text> @Html.RadioButton("option", "FirstName") <text> First Name </text>
+    @Html.RadioButton("option", "LastName")<text> Last Name </text> @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+    <input type="submit" value="Search" />
+}
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Lecturer ID", "Index", new { sortOrder = ViewBag.lectureridSortParm, currentFilter = ViewBag.CurrentFilter })
+            @*@Html.DisplayNameFor(model => model.LecturerID)*@
+        </th>
+        <th>
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.firstnameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @*@Html.DisplayNameFor(model => model.FirstName)*@
+        </th>
+        <th>
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.lastnameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @*@Html.DisplayNameFor(model => model.LastName)*@
+        </th>
+        <th>
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.emailSortParm, currentFilter = ViewBag.CurrentFilter })
+            @*@Html.DisplayNameFor(model => model.Email)*@
+        </th>
+        <th>
+            @Html.ActionLink("Phone Number", "Index", new { sortOrder = ViewBag.phoneSortParm, currentFilter = ViewBag.CurrentFilter })
+            @*@Html.DisplayNameFor(model => model.Phone)*@
+        </th>
+        <th>
+            @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.addressSortParm, currentFilter = ViewBag.CurrentFilter })
+            @*@Html.DisplayNameFor(model => model.Address)*@
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.DateEntered)
+        </th>*@
+        <th></th>
+    </tr>
+
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="3">No records found.</td>
+    </tr> }
+
+else
+{
+
+    foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LecturerID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.DateEntered)
+        </td>*@
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.LecturerID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.LecturerID }) 
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.LecturerID })*@
+        </td>
+    </tr>
+    }
+}
+
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
